@@ -1,0 +1,55 @@
+# Equine Farrier App — Cursor Rules
+# Framework: React Native + Expo (SDK 52+)
+# Language: TypeScript (strict mode)
+# Backend: Supabase (PostgreSQL, Auth, Storage)
+# Local DB: Expo SQLite (offline-first)
+# State: React Context + Hooks
+
+## Code Style
+- Functional components with hooks only. Never class components.
+- async/await for all asynchronous operations. Never raw .then() chains or callbacks.
+- TypeScript strict mode. No `any` type. Define explicit interfaces for all data shapes.
+- camelCase for variables and functions.
+- PascalCase for components, types, and interfaces.
+- UPPER_SNAKE_CASE for constants.
+- Boolean variables prefixed with is, has, should, or can (e.g., isOffline, hasSynced, canEdit).
+- Exception: BehavioralFlags fields (kicks, bites, pullsBack, needsSedation, difficultToCatch) are exempt from boolean prefix convention because they serve as domain-specific attribute labels stored in JSON.
+
+## File Rules
+- Maximum 300 lines per file. If approaching 300, extract into separate modules.
+- One component per file.
+- Tests colocated with features (e.g., hoofService.test.ts next to hoofService.ts).
+- Group files by feature in src/features/. Never group by technical type.
+- All shared/reusable code in src/shared/.
+
+## Component Rules
+- Every screen component handles three states: loading, error, empty.
+- Use shared design system components from src/shared/components/.
+- All touchable targets minimum 48x48 dp. Prefer 56x56 dp for primary actions.
+- All text meets WCAG AA contrast ratio (4.5:1 minimum).
+- No text smaller than 14sp anywhere in the app.
+
+## Data and API Rules
+- All Supabase calls go through feature service files (e.g., hoofService.ts, crmService.ts).
+- All writes go to local SQLite first, then sync to Supabase.
+- Exception for auth: sign-up and sign-in must talk to Supabase first because identity is established server-side. After Supabase returns a session, upsert the user/team/team_member rows into local SQLite. All other data flows write to SQLite first.
+- Service functions return a standardized envelope: { success: boolean, data: T, error?: string }.
+- All external operations (network, file I/O, database) wrapped in try-catch.
+- Validate inputs at function entry. Fail fast with descriptive errors.
+- Never swallow errors. Every catch block must log or re-throw.
+
+## Logging
+- Use the structured logging utility from src/shared/utils/logging.ts.
+- Log format: [MODULE] action — details (e.g., [SYNC] push_session — id: abc123, status: success).
+- Log at: function entry for key operations, external calls, error branches, sync events.
+- Standard MODULE labels: [AUTH], [CRM], [HOOF], [TEAM], [SUB], [SYNC], [PHOTO], [DB].
+
+## Offline-First Rules
+- The UI never blocks on a network request.
+- Show sync status indicators (synced, pending, error).
+- Network absence is expected, not an error. Never show "no connection" error modals during normal operation.
+
+## Measurement Units
+- Store all measurements in canonical units (millimeters for length, degrees for angles).
+- Convert to display units (imperial or metric) in the UI layer only.
+- Use the useUnits hook for display conversion.

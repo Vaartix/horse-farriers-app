@@ -1,0 +1,40 @@
+# Dependencies
+node_modules/
+
+# Expo
+.expo/
+dist/
+web-build/
+
+# Native builds
+ios/
+android/
+
+# Environment
+.env
+
+# Build artifacts
+build/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+npm-debug.*
+
+# Signing
+*.jks
+*.p8
+*.p12
+*.key
+*.mobileprovision
+
+# Editor
+*.orig.*
+.vscode/
+.idea/
+
+# TypeScript
+*.tsbuildinfo
