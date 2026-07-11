@@ -8,7 +8,13 @@
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "light",
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "infoPlist": {
+        "NSCameraUsageDescription": "HoofTrack uses the camera to photograph hooves during shoeing sessions.",
+        "NSPhotoLibraryUsageDescription": "HoofTrack lets you attach hoof photos from your library to records.",
+        "NSMicrophoneUsageDescription": "HoofTrack uses the microphone for voice-to-text notes.",
+        "NSSpeechRecognitionUsageDescription": "HoofTrack transcribes spoken notes into hoof records."
+      }
     },
     "android": {
       "adaptiveIcon": {
@@ -25,7 +31,8 @@
     "plugins": [
       "expo-router",
       "expo-status-bar",
-      "expo-sqlite"
+      "expo-sqlite",
+      "expo-font"
     ]
   }
 }
